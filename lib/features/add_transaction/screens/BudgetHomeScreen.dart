@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_own_app/ExpenseScreen.dart';
+import 'package:my_own_app/IncomeScreen.dart';
 import 'package:my_own_app/shared/models/transaction.dart';
 
 class BudgetHomeScreen extends StatefulWidget {
+  const BudgetHomeScreen({super.key});
+
   @override
   _BudgetHomeScreenState createState() => _BudgetHomeScreenState();
 }
@@ -10,37 +14,37 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
   List<Transaction> transactions = [];
   final _amountController = TextEditingController();
   final _descriptionController = TextEditingController();
-  String _transactionType = 'Einnahme'; // Standardmäßig 'Einnahme'
 
-  void _addTransaction() {
-    final amount = double.tryParse(_amountController.text);
-    final description = _descriptionController.text;
-
-    if (amount != null && description.isNotEmpty) {
-      setState(() {
-        // Je nach Auswahl wird das Vorzeichen des Betrags angepasst
-        if (_transactionType == 'Ausgabe') {
-          amount = -amount;
-        }
-        transactions.add(Transaction(amount, description, _transactionType));
-      });
-
-      _amountController.clear();
-      _descriptionController.clear();
-      _transactionType = 'Einnahme'; // Standard zurücksetzen
-    }
-  }
-
+  // Berechnung der Gesamteinnahmen
   double get _totalIncome {
     return transactions
         .where((tx) => tx.amount > 0)
         .fold(0, (sum, tx) => sum + tx.amount);
   }
 
+  // Berechnung der Gesamtausgaben
   double get _totalExpenses {
     return transactions
         .where((tx) => tx.amount < 0)
         .fold(0, (sum, tx) => sum + tx.amount);
+  }
+
+  void _addTransaction() {
+    var amount = double.tryParse(_amountController.text);
+    final description = _descriptionController.text;
+
+    if (amount != null && description.isNotEmpty) {
+      setState(() {
+        if (amount < 0) {
+          transactions.add(Transaction(amount, description, 'Ausgabe'));
+        } else {
+          transactions.add(Transaction(amount, description, 'Einnahme'));
+        }
+      });
+
+      _amountController.clear();
+      _descriptionController.clear();
+    }
   }
 
   @override
@@ -55,7 +59,7 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Einnahmen und Ausgaben anzeigen
+            // Anzeige der Gesamteinnahmen und -ausgaben oben
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -93,7 +97,7 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
               ),
             ),
             SizedBox(height: 20),
-            // Transaktionsliste
+            // Anzeige aller Transaktionen (Einnahmen + Ausgaben)
             Expanded(
               child: ListView.builder(
                 itemCount: transactions.length,
@@ -111,7 +115,6 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
                           ),
                         ),
                         SizedBox(width: 5),
-                        // Anzeige des Transaktionstyps
                         Text(
                           tx.type,
                           style: TextStyle(
@@ -132,10 +135,41 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1, // 0 für den Hauptscreen
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => IncomeScreen(transactions: transactions),
+              ),
+            );
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ExpenseScreen(transactions: transactions),
+              ),
+            );
+          }
+        },
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.arrow_upward),
+            label: 'Einnahmen',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Startseite'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.arrow_downward),
+            label: 'Ausgaben',
+          ),
+        ],
+      ),
     );
   }
 
-  // Funktion für die Anzeige von Einnahmen/Ausgaben
+  // Anzeige der Gesamtwerte für Einnahmen und Ausgaben
   Widget _buildBudgetInfo(
       String label, double amount, Color color, IconData icon) {
     return Column(

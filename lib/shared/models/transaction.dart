@@ -1,7 +1,7 @@
 class Transaction {
-  final double amount;
-  final String description;
-  final String type;
+  double amount;
+  String description;
+  String type;
 
   Transaction(this.amount, this.description, this.type);
 }
