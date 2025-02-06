@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_own_app/ExpenseScreen.dart';
-import 'package:my_own_app/IncomeScreen.dart';
+import 'package:my_own_app/expense_screen.dart';
+import 'package:my_own_app/income_screen.dart';
 import 'package:my_own_app/shared/models/transaction.dart';
+import 'package:my_own_app/shared/repos/transaction_controller.dart';
 
 class BudgetHomeScreen extends StatefulWidget {
-  const BudgetHomeScreen({super.key});
+  final TransactionController transactionController;
+
+  const BudgetHomeScreen({required this.transactionController, super.key});
 
   @override
   _BudgetHomeScreenState createState() => _BudgetHomeScreenState();
@@ -37,8 +40,10 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
       setState(() {
         if (amount < 0) {
           transactions.add(Transaction(amount, description, 'Ausgabe'));
+          //widget.transactionController.addTransaction("2", Transaction(amount, description, 'Ausgabe'));
         } else {
           transactions.add(Transaction(amount, description, 'Einnahme'));
+          //widget.transactionController.addTransaction("3", Transaction(amount, description, 'Einnahme'));
         }
       });
 
