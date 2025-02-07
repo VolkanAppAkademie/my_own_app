@@ -23,7 +23,5 @@ class MockDatabase implements DatabaseRepository {
   }
 
   @override
-  void removeTransaction(String id) {
-    // TODO: implement removeEinnahmen
-  }
+  void removeTransaction(String id) {}
 }

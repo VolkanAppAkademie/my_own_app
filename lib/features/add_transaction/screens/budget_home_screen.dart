@@ -141,7 +141,7 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1, // 0 für den Hauptscreen
+        currentIndex: 1,
         onTap: (index) {
           if (index == 0) {
             Navigator.push(
