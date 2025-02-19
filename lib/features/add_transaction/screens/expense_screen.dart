@@ -1,33 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:my_own_app/shared/models/transaction.dart';
+import 'package:my_own_app/shared/repos/transaction_controller.dart';
 
 class ExpenseScreen extends StatelessWidget {
-  final List<Transaction> transactions;
-
   // Wir erhalten die Transaktionen, die auf dem Hauptscreen hinzugefügt wurden
-  const ExpenseScreen({super.key, required this.transactions});
+  final TransactionController transactionController;
+
+  const ExpenseScreen({super.key, required this.transactionController});
 
   @override
   Widget build(BuildContext context) {
-    // Filtern der Ausgaben
-    final expenseTransactions =
-        transactions.where((tx) => tx.amount < 0).toList();
+    //TODO Anzeigen wenn keine Expenses/Income da sind
+    return FutureBuilder(
+        future: transactionController.getAllTransactions(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
+            final incomeTransactions =
+                snapshot.data!.where((tx) => tx.amount > 0).toList();
 
-    return expenseTransactions.isEmpty
-        ? Center(child: Text("Keine Ausgaben verfügbar."))
-        : ListView.builder(
-            itemCount: expenseTransactions.length,
-            itemBuilder: (ctx, index) {
-              final tx = expenseTransactions[index];
-              return ListTile(
-                title: Text(tx.description),
-                subtitle: Text('€${tx.amount.toStringAsFixed(2)}'),
-                leading: Icon(
-                  Icons.arrow_downward,
-                  color: Colors.red,
-                ),
-              );
-            },
-          );
+            return ListView.builder(
+              itemCount: incomeTransactions.length,
+              itemBuilder: (ctx, index) {
+                final tx = incomeTransactions[index];
+                return ListTile(
+                  title: Text(tx.description),
+                  subtitle: Text('€${tx.amount.toStringAsFixed(2)}'),
+                  leading: Icon(
+                    Icons.arrow_upward,
+                    color: Colors.green,
+                  ),
+                );
+              },
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
   }
 }

@@ -10,8 +10,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      home: HomeArea(),
+      home: HomeArea(transactionController: transactionController),
     );
   }
 }

@@ -13,13 +13,23 @@ class MockDatabase implements DatabaseRepository {
   }
 
   @override
-  List<String> getAllTransactionDescriptions() {
+  Future<List<String>> getAllTransactionDescriptions() async {
     List<String> descriptions = [];
     for (Transaction transaction in transactionData.values) {
       descriptions.add(transaction.description);
     }
 
     return descriptions;
+  }
+
+  @override
+  List<Transaction> getAllTransactions() {
+    List<Transaction> transactions = [];
+    for (Transaction transaction in transactionData.values) {
+      transactions.add(transaction);
+    }
+
+    return transactions;
   }
 
   @override

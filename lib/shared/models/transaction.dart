@@ -4,4 +4,6 @@ class Transaction {
   String type;
 
   Transaction(this.amount, this.description, this.type);
+
+  get transactions => null;
 }

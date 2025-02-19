@@ -4,7 +4,9 @@ abstract class DatabaseRepository {
   // Create
   void addTransaction(String id, Transaction transaction);
   // Read
-  List<String> getAllTransactionDescriptions();
+  Future<List<String>> getAllTransactionDescriptions();
   // Delete
   void removeTransaction(String id);
+
+  List<Transaction> getAllTransactions();
 }

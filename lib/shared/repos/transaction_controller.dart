@@ -8,4 +8,10 @@ class TransactionController {
 
   void addTransaction(String id, Transaction transaction) =>
       _databaseRepository.addTransaction(id, transaction);
+
+  Future<List<Transaction>> getAllTransactions() async {
+    await Future.delayed(Duration(seconds: 3));
+
+    return _databaseRepository.getAllTransactions();
+  }
 }
