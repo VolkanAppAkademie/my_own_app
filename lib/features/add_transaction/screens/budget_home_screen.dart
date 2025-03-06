@@ -127,7 +127,7 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
                 ],
               );
             } else {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
           }),
     );
