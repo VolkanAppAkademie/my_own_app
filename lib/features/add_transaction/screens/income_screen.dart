@@ -22,6 +22,10 @@ class IncomeScreen extends StatelessWidget {
             final incomeTransactions =
                 snapshot.data!.where((tx) => tx.amount > 0).toList();
 
+            if (incomeTransactions.isEmpty) {
+              return Center(child: Text('Keine Einnahmen'));
+            }
+
             return ListView.builder(
               itemCount: incomeTransactions.length,
               itemBuilder: (ctx, index) {

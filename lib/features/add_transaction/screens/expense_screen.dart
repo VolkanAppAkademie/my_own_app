@@ -10,14 +10,17 @@ class ExpenseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO Anzeigen wenn keine Expenses/Income da sind
     return FutureBuilder(
         future: transactionController.getAllTransactions(),
         builder: (context, snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
             final incomeTransactions =
-                snapshot.data!.where((tx) => tx.amount > 0).toList();
+                snapshot.data!.where((tx) => tx.amount < 0).toList();
+
+            if (incomeTransactions.isEmpty) {
+              return Center(child: Text('Keine Ausgaben'));
+            }
 
             return ListView.builder(
               itemCount: incomeTransactions.length,
