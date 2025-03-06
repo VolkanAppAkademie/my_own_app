@@ -37,7 +37,7 @@ class IncomeScreen extends StatelessWidget {
               },
             );
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         });
   }
