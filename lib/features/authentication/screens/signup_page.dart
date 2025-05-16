@@ -56,7 +56,7 @@ class _SignupPageState extends State<SignupPage> {
                   controller: passwordController,
                   validator: (value) {
                     if (value == null || value.length < 8) {
-                      return 'Please enter at least 8 characters';
+                      return 'Mindestens 8 Zeichen eingeben';
                     }
                     return null;
                   },
@@ -79,7 +79,7 @@ class _SignupPageState extends State<SignupPage> {
                   controller: passwordController2,
                   validator: (value) {
                     if (value == null || value != passwordController.text) {
-                      return 'Passwords not identical!';
+                      return 'Passwörter nicht identisch!';
                     }
                     return null;
                   },
@@ -118,13 +118,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => LoginPage(
-                          transactionController: widget.transactionController,
-                        ),
-                      ),
-                    );
+                    Navigator.of(context).pop();
                   },
                   child: Text('Zum Login'),
                 ),

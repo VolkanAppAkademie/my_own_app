@@ -30,8 +30,8 @@ class ExpenseScreen extends StatelessWidget {
                   title: Text(tx.description),
                   subtitle: Text('€${tx.amount.toStringAsFixed(2)}'),
                   leading: Icon(
-                    Icons.arrow_upward,
-                    color: Colors.green,
+                    Icons.arrow_downward,
+                    color: Colors.red,
                   ),
                 );
               },

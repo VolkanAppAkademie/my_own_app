@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:my_own_app/shared/models/transaction.dart';
+import 'package:my_own_app/features/authentication/screens/login_page_firebase.dart';
 import 'package:my_own_app/shared/repos/transaction_controller.dart';
 import 'package:my_own_app/shared/widgets/transaction_summary.dart';
+import 'package:my_own_app/features/feature_2/repos/auth_repository.dart';
 
 class BudgetHomeScreen extends StatefulWidget {
   final TransactionController transactionController;
   final TextEditingController amountController;
   final TextEditingController descriptionController;
   final VoidCallback addTransaction;
+
   const BudgetHomeScreen({
     required this.transactionController,
     required this.amountController,
@@ -21,6 +23,10 @@ class BudgetHomeScreen extends StatefulWidget {
 }
 
 class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
+  Future<void> _logout() async {
+    // Ausloggen
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,7 +39,7 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Anzeige der Gesamteinnahmen und -ausgaben
+                  // Einnahmen & Ausgaben Übersicht
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -54,7 +60,7 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  // Eingabefelder für neue Transaktionen
+                  // Neue Transaktion hinzufügen
                   TextField(
                     controller: widget.amountController,
                     decoration: InputDecoration(
@@ -77,15 +83,25 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
                     onPressed: widget.addTransaction,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal,
+                      foregroundColor: Colors.white,
                       padding:
                           EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                     ),
-                    child: const Text(
-                      'Transaktion hinzufügen',
-                    ),
+                    child: Center(child: Text('Transaktion hinzufügen')),
                   ),
                   SizedBox(height: 20),
-                  // Anzeige aller Transaktionen (Einnahmen + Ausgaben)
+                  ElevatedButton(
+                    onPressed: _logout,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 150, 0, 0),
+                      foregroundColor: Colors.white,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                    ),
+                    child: Center(child: Text('Logout')),
+                  ),
+                  SizedBox(height: 20),
+                  // Transaktionsliste
                   Expanded(
                     child: ListView.builder(
                       itemCount: snapshot.data!.length,

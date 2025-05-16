@@ -7,14 +7,18 @@ environment:
   sdk: ^3.6.0
 
 dependencies:
+  shared_preferences: ^2.5.2
   flutter:
     sdk: flutter
+  firebase_auth: ^5.5.3
+  firebase_core: ^3.13.0
+  cloud_firestore: ^5.6.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.3
 
 flutter_icons:
   android: true

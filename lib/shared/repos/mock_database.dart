@@ -1,37 +1,30 @@
 import 'package:my_own_app/shared/models/transaction.dart';
+import 'package:my_own_app/shared/repos/database_repository.dart';
 
-import 'database_repository.dart';
-
-class MockDatabase implements DatabaseRepository {
-  Map<String, Transaction> transactionData = {
-    "1": Transaction(100, "First Transaction", "Income")
-  };
+class MockDatabaseRepository implements DatabaseRepository {
+  Map<String, Transaction> _transactionData = {};
 
   @override
-  void addTransaction(String id, Transaction transaction) {
-    transactionData[id] = transaction;
+  Future<void> addTransaction(String id, Transaction transaction) async {
+    // Füge Transaktion in die Datenbank ein
+    _transactionData[id] = transaction;
   }
 
   @override
   Future<List<String>> getAllTransactionDescriptions() async {
-    List<String> descriptions = [];
-    for (Transaction transaction in transactionData.values) {
-      descriptions.add(transaction.description);
-    }
-
-    return descriptions;
+    // Gibt alle Transaktionsbeschreibungen zurück
+    return _transactionData.values.map((tx) => tx.description).toList();
   }
 
   @override
-  List<Transaction> getAllTransactions() {
-    List<Transaction> transactions = [];
-    for (Transaction transaction in transactionData.values) {
-      transactions.add(transaction);
-    }
-
-    return transactions;
+  Future<List<Transaction>> getAllTransactions() async {
+    // Gibt alle Transaktionen zurück
+    return _transactionData.values.toList();
   }
 
   @override
-  void removeTransaction(String id) {}
+  Future<void> removeTransaction(String id) async {
+    // Entferne die Transaktion nach der ID
+    _transactionData.remove(id);
+  }
 }

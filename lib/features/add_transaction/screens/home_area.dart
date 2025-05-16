@@ -15,7 +15,7 @@ class HomeArea extends StatefulWidget {
 
 class _HomeAreaState extends State<HomeArea> {
   int selectedArea = 1;
-  List<String> appBarTexts = ['Einnahmen', 'Übersicht', 'Ausgaben'];
+  List<String> appBarTexts = ['Einnahmen', 'Transaktionen', 'Ausgaben'];
   //final List<Transaction> _transactions = [];
   final _amountController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -69,6 +69,7 @@ class _HomeAreaState extends State<HomeArea> {
       appBar: AppBar(
         title: Text(appBarTexts[selectedArea]),
         backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
       ),
       body: switchBody(),
       bottomNavigationBar: BottomNavigationBar(
@@ -79,7 +80,10 @@ class _HomeAreaState extends State<HomeArea> {
             icon: Icon(Icons.arrow_upward),
             label: 'Einnahmen',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Startseite'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance_wallet),
+              label: 'Transaktionen',
+              backgroundColor: Colors.red),
           BottomNavigationBarItem(
             icon: Icon(Icons.arrow_downward),
             label: 'Ausgaben',

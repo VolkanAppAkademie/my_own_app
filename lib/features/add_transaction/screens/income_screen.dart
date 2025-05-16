@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_own_app/shared/models/transaction.dart';
 import 'package:my_own_app/shared/repos/transaction_controller.dart';
 
 class IncomeScreen extends StatelessWidget {

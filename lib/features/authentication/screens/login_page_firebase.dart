@@ -1,28 +1,63 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:my_own_app/features/add_transaction/screens/home_area.dart';
 import 'package:my_own_app/features/authentication/screens/signup_page.dart';
+import 'package:my_own_app/features/feature_2/repos/auth_repository.dart';
 import 'package:my_own_app/shared/repos/transaction_controller.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.transactionController});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({
+    super.key,
+    required this.transactionController,
+    required this.authRepository,
+  });
+
   final TransactionController transactionController;
+  final AuthRepository authRepository;
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
   bool _showErrorMessage = false;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  String? errorText;
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  Future<void> login() async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Bitte E-Mail oder Passwort ausfüllen")),
+      );
+      return;
+    }
 
-  @override
-  void dispose() {
-    print('Das hier wird aufgerufen, wenn dieses Widget aufgeräumt wird');
-    emailController.dispose();
-    super.dispose();
+    // Nutzer einloggen
+    errorText = await widget.authRepository.signInWithEmailPassword(
+      emailController.text,
+      passwordController.text,
+    );
+
+    setState(() {
+      _showErrorMessage = errorText != null;
+    });
+  }
+
+  Future<void> register() async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Bitte E-Mail oder Passwort ausfüllen")),
+      );
+      return;
+    }
+
+    // Nutzer registrieren
+    errorText = await widget.authRepository.registerWithEmailPassword(
+      emailController.text,
+      passwordController.text,
+    );
+    setState(() {});
   }
 
   @override
@@ -42,14 +77,12 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               TextField(
                 controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
               ),
-              SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: passwordController,
                 obscureText: _isObscure,
@@ -67,50 +100,44 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               if (_showErrorMessage)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(
                     'Anmeldedaten sind nicht korrekt',
-                    style: TextTheme.of(context)
+                    style: Theme.of(context)
+                        .textTheme
                         .bodyMedium
                         ?.copyWith(color: Colors.red),
                   ),
                 ),
               FilledButton(
-                onPressed: () {
-                  final email = emailController.text;
-                  final password = passwordController.text;
-                  print('Email ist: $email und Passwort ist: $password');
-                  if (email == 'autobahn@web.de' && password == 'Tunnelfisch') {
+                onPressed: () async {
+                  await login();
+                  if (errorText == null) {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => HomeArea(
-                            transactionController:
-                                widget.transactionController),
+                          transactionController: widget.transactionController,
+                        ),
                       ),
                     );
-                  } else {
-                    setState(() {
-                      _showErrorMessage = true;
-                    });
                   }
                 },
-                child: Text(
-                  'Login',
-                ),
+                child: const Text('Login'),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => SignupPage(
-                          transactionController: widget.transactionController),
+                        transactionController: widget.transactionController,
+                      ),
                     ),
                   );
                 },
-                child: Text(
+                child: const Text(
                   'Noch kein Account?',
                   textAlign: TextAlign.center,
                 ),
@@ -122,4 +149,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-*/
