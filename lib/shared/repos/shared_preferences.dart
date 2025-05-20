@@ -26,8 +26,8 @@ class SharedPreferencesRepository implements MockDatabaseRepository {
 
   @override
   Future<List<String>> getAllTransactionDescriptions() async {
-    final Sekretaerin = await SharedPreferences.getInstance();
-    Sekretaerin.getStringList("transaction").map((tx) => tx.description)
+    final prefs = await SharedPreferences.getInstance();
+    prefs.getStringList("transaction").map((tx) => tx.description)
 
     // Gibt alle Transaktionsbeschreibungen zurück
     return transactionData.values.map((tx) => tx.description).toList();

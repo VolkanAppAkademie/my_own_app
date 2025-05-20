@@ -26,3 +26,11 @@ Future<void> main() async {
       transactionController: transactionController,
       authRepository: authRepository));
 }
+
+
+//Provider implementieren 
+//initialisieren
+//Auth Repo (Firebase)in Provider packen
+// Logout implementieren
+
+// AuthProvider  in main initialisieren

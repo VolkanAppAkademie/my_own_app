@@ -89,17 +89,7 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
                     ),
                     child: Center(child: Text('Transaktion hinzufügen')),
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _logout,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 150, 0, 0),
-                      foregroundColor: Colors.white,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                    ),
-                    child: Center(child: Text('Logout')),
-                  ),
+
                   SizedBox(height: 20),
                   // Transaktionsliste
                   Expanded(
