@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:my_own_app/budget_provider.dart';
 import 'package:my_own_app/features/add_transaction/screens/home_area.dart';
 import 'package:my_own_app/features/authentication/screens/signup_page.dart';
 import 'package:my_own_app/features/feature_2/repos/auth_repository.dart';
+import 'package:my_own_app/features/feature_2/repos/firebase_auth_repository.dart';
 import 'package:my_own_app/shared/repos/transaction_controller.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
     super.key,
     required this.transactionController,
-    required this.authRepository,
   });
 
   final TransactionController transactionController;
-  final AuthRepository authRepository;
+  //final AuthRepository authRepository;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -24,6 +26,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String? errorText;
+  late FirebaseAuthRepository authRepository;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authRepository =
+        Provider.of<BudgetProvider>(context, listen: false).authRepository;
+  }
 
   Future<void> login() async {
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
@@ -34,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     // Nutzer einloggen
-    errorText = await widget.authRepository.signInWithEmailPassword(
+    errorText = await authRepository.signInWithEmailPassword(
       emailController.text,
       passwordController.text,
     );
@@ -53,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     // Nutzer registrieren
-    errorText = await widget.authRepository.registerWithEmailPassword(
+    errorText = await authRepository.registerWithEmailPassword(
       emailController.text,
       passwordController.text,
     );

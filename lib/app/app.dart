@@ -1,17 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_own_app/budget_provider.dart';
 import 'package:my_own_app/features/add_transaction/screens/home_area.dart';
 import 'package:my_own_app/features/authentication/screens/login_page_firebase.dart';
 import 'package:my_own_app/features/feature_2/repos/auth_repository.dart';
+import 'package:my_own_app/features/feature_2/repos/firebase_auth_repository.dart';
 import 'package:my_own_app/shared/repos/transaction_controller.dart';
+import 'package:provider/provider.dart';
 
 class MyApp extends StatefulWidget {
-  final AuthRepository authRepository;
   final TransactionController transactionController;
 
   const MyApp({
     required this.transactionController,
-    required this.authRepository,
     super.key,
   });
 
@@ -20,10 +21,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late FirebaseAuthRepository authRepository;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authRepository =
+        Provider.of<BudgetProvider>(context, listen: false).authRepository;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: widget.authRepository.onAuthChanged(),
+      stream: authRepository.onAuthChanged(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const MaterialApp(
@@ -48,7 +59,6 @@ class _MyAppState extends State<MyApp> {
                 )
               : LoginScreen(
                   transactionController: widget.transactionController,
-                  authRepository: widget.authRepository,
                 ),
         );
       },

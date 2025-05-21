@@ -17,19 +17,17 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final FirebaseAuth auth = FirebaseAuth.instance;
   DatabaseRepository databaseRepository = MockDatabaseRepository();
-  final AuthRepository authRepository = FirebaseAuthRepository(auth);
 
   final TransactionController transactionController =
       TransactionController(databaseRepository);
-  print('test 4');
+
   runApp(
     ChangeNotifierProvider(
+      lazy: false,
       create: (_) => BudgetProvider(),
       child: MyApp(
         transactionController: transactionController,
-        authRepository: authRepository,
       ),
     ),
   );
@@ -40,5 +38,7 @@ void main() async {
 //Auth Repo (Firebase)in Provider packen
 // Logout implementieren
 
-// AuthProvider  in main initialisieren
+// wie benutzt man Provider, wie kann ich zugreifen?
+
+
 
