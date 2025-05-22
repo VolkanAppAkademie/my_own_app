@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:my_own_app/budget_provider.dart';
 import 'package:my_own_app/features/add_transaction/screens/budget_home_screen.dart';
 import 'package:my_own_app/features/add_transaction/screens/expense_screen.dart';
 import 'package:my_own_app/features/add_transaction/screens/income_screen.dart';
+import 'package:my_own_app/features/feature_2/repos/firebase_auth_repository.dart';
+import 'package:my_own_app/main.dart';
 import 'package:my_own_app/shared/models/transaction.dart';
 import 'package:my_own_app/shared/repos/transaction_controller.dart';
+import 'package:provider/provider.dart';
 
 class HomeArea extends StatefulWidget {
   final TransactionController transactionController;
@@ -19,6 +23,16 @@ class _HomeAreaState extends State<HomeArea> {
   //final List<Transaction> _transactions = [];
   final _amountController = TextEditingController();
   final _descriptionController = TextEditingController();
+
+  late FirebaseAuthRepository authRepository;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authRepository =
+        Provider.of<BudgetProvider>(context, listen: false).authRepository;
+  }
 
   void _addTransaction() {
     var amount = double.tryParse(_amountController.text);
@@ -70,6 +84,13 @@ class _HomeAreaState extends State<HomeArea> {
         title: Text(appBarTexts[selectedArea]),
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: () => authRepository.logOut(),
+            icon: Icon(Icons.logout),
+            tooltip: 'Abmelden',
+          )
+        ],
       ),
       body: switchBody(),
       bottomNavigationBar: BottomNavigationBar(
