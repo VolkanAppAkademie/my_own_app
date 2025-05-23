@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_own_app/budget_provider.dart';
 import 'package:my_own_app/features/add_transaction/screens/budget_home_screen.dart';
@@ -5,9 +6,10 @@ import 'package:my_own_app/features/add_transaction/screens/expense_screen.dart'
 import 'package:my_own_app/features/add_transaction/screens/income_screen.dart';
 import 'package:my_own_app/features/feature_2/repos/firebase_auth_repository.dart';
 import 'package:my_own_app/main.dart';
-import 'package:my_own_app/shared/models/transaction.dart';
+import 'package:my_own_app/shared/models/transaction.dart' as my;
 import 'package:my_own_app/shared/repos/transaction_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeArea extends StatefulWidget {
   final TransactionController transactionController;
@@ -37,17 +39,36 @@ class _HomeAreaState extends State<HomeArea> {
   void _addTransaction() {
     var amount = double.tryParse(_amountController.text);
     final description = _descriptionController.text;
+    /*try {
+      FirebaseFirestore.instance.collection('transactions').add({
+        'transaction': {
+          'amount': amount,
+          'description': description,
+        }
+      });
+    } catch (e) {
+      print('error:$e');
+    }
+*/
+    //auf Firebase amount & description als ein Objekt schreiben
+
+    FirebaseFirestore.instance.collection('transactions').add({
+      'transaction': {
+        'amount': amount,
+        'description': description,
+      }
+    });
 
     if (amount != null && description.isNotEmpty) {
       setState(() {
         if (amount < 0) {
           //_transactions.add(Transaction(amount, description, 'Ausgabe'));
-          widget.transactionController
-              .addTransaction("2", Transaction(amount, description, 'Ausgabe'));
+          widget.transactionController.addTransaction(
+              "2", my.Transaction(amount, description, 'Ausgabe'));
         } else {
           //_transactions.add(Transaction(amount, description, 'Einnahme'));
           widget.transactionController.addTransaction(
-              "3", Transaction(amount, description, 'Einnahme'));
+              "3", my.Transaction(amount, description, 'Einnahme'));
         }
       });
 
