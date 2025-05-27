@@ -30,7 +30,6 @@ class _HomeAreaState extends State<HomeArea> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     authRepository =
         Provider.of<BudgetProvider>(context, listen: false).authRepository;

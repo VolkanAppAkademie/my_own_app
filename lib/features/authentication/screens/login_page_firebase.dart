@@ -30,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     authRepository =
         Provider.of<BudgetProvider>(context, listen: false).authRepository;

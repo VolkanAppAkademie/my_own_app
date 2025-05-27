@@ -32,15 +32,3 @@ void main() async {
     ),
   );
 }
-
-
-
-//Auth Repo (Firebase)in Provider packen
-// Logout implementieren
-
-// wie benutzt man Provider, wie kann ich zugreifen?
-
-
-
-
-

@@ -25,7 +25,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     authRepository =
         Provider.of<BudgetProvider>(context, listen: false).authRepository;

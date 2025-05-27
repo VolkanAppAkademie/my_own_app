@@ -23,9 +23,7 @@ class BudgetHomeScreen extends StatefulWidget {
 }
 
 class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
-  Future<void> _logout() async {
-    // Ausloggen
-  }
+  Future<void> _logout() async {}
 
   @override
   Widget build(BuildContext context) {
