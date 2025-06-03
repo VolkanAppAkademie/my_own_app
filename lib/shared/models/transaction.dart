@@ -2,18 +2,23 @@ class Transaction {
   double amount;
   String description;
   String type;
+  String id;
 
-  Transaction(this.amount, this.description, this.type);
+  Transaction({
+    required this.amount,
+    required this.description,
+    required this.type,
+    required this.id,
+  });
 
   get transactions => null;
 
-  get id => null;
-
-  Transaction.fromJson(Map<String, dynamic> json)
+  Transaction.fromMap(Map<String, dynamic> json, String id)
       : amount = json['amount'] as double,
         description = json['description'] as String,
-        type = json['type'] as String;
+        type = json['type'] as String,
+        id = json['id'];
 
-  Map<String, dynamic> toJson() =>
-      {'amount': amount, 'description': description, 'type': type};
+  Map<String, dynamic> toMap() =>
+      {'amount': amount, 'description': description, 'type': type, 'id': id};
 }

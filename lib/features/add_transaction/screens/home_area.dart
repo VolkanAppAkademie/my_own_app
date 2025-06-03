@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_own_app/budget_provider.dart';
 import 'package:my_own_app/features/add_transaction/screens/budget_home_screen.dart';
+import 'package:my_own_app/features/add_transaction/screens/budget_home_screen_2.dart';
 import 'package:my_own_app/features/add_transaction/screens/expense_screen.dart';
 import 'package:my_own_app/features/add_transaction/screens/income_screen.dart';
 import 'package:my_own_app/features/feature_2/repos/firebase_auth_repository.dart';
@@ -12,8 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeArea extends StatefulWidget {
-  final TransactionController transactionController;
-  const HomeArea({required this.transactionController, super.key});
+  const HomeArea({super.key});
 
   @override
   State<HomeArea> createState() => _HomeAreaState();
@@ -32,10 +32,10 @@ class _HomeAreaState extends State<HomeArea> {
   void initState() {
     super.initState();
     authRepository =
-        Provider.of<BudgetProvider>(context, listen: false).authRepository;
+        Provider.of<FirebaseAuthRepository>(context, listen: false);
   }
 
-  void _addTransaction() {
+  /*void _addTransaction() {
     var amount = double.tryParse(_amountController.text);
     final description = _descriptionController.text;
     /*try {
@@ -75,23 +75,18 @@ class _HomeAreaState extends State<HomeArea> {
       _descriptionController.clear();
     }
   }
-
+*/
   Widget switchBody() {
     switch (selectedArea) {
       case 0:
-        return IncomeScreen(
-          transactionController: widget.transactionController,
-        );
+        return IncomeScreen();
       case 1:
         return BudgetHomeScreen(
-          transactionController: widget.transactionController,
           amountController: _amountController,
           descriptionController: _descriptionController,
-          addTransaction: _addTransaction,
         );
       case 2:
-        return ExpenseScreen(
-            transactionController: widget.transactionController);
+        return ExpenseScreen();
       default:
         return Placeholder();
     }

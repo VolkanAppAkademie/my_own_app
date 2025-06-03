@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_own_app/budget_provider.dart';
 import 'package:my_own_app/features/add_transaction/screens/home_area.dart';
 import 'package:my_own_app/features/authentication/screens/signup_page.dart';
+import 'package:my_own_app/features/authentication/screens/signup_page_firebase.dart';
 import 'package:my_own_app/features/feature_2/repos/auth_repository.dart';
 import 'package:my_own_app/features/feature_2/repos/firebase_auth_repository.dart';
 import 'package:my_own_app/shared/repos/transaction_controller.dart';
@@ -10,10 +11,8 @@ import 'package:provider/provider.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
     super.key,
-    required this.transactionController,
   });
 
-  final TransactionController transactionController;
   //final AuthRepository authRepository;
 
   @override
@@ -32,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     authRepository =
-        Provider.of<BudgetProvider>(context, listen: false).authRepository;
+        Provider.of<FirebaseAuthRepository>(context, listen: false);
   }
 
   Future<void> login() async {
@@ -128,9 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (errorText == null) {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => HomeArea(
-                          transactionController: widget.transactionController,
-                        ),
+                        builder: (context) => HomeArea(),
                       ),
                     );
                   }
@@ -141,9 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => SignupPage(
-                        transactionController: widget.transactionController,
-                      ),
+                      builder: (context) => SignupPage(),
                     ),
                   );
                 },

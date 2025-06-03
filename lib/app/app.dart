@@ -9,10 +9,7 @@ import 'package:my_own_app/shared/repos/transaction_controller.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatefulWidget {
-  final TransactionController transactionController;
-
   const MyApp({
-    required this.transactionController,
     super.key,
   });
 
@@ -27,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     authRepository =
-        Provider.of<BudgetProvider>(context, listen: false).authRepository;
+        Provider.of<FirebaseAuthRepository>(context, listen: false);
   }
 
   @override
@@ -52,13 +49,7 @@ class _MyAppState extends State<MyApp> {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: isLoggedIn
-              ? HomeArea(
-                  transactionController: widget.transactionController,
-                )
-              : LoginScreen(
-                  transactionController: widget.transactionController,
-                ),
+          home: isLoggedIn ? HomeArea() : LoginScreen(),
         );
       },
     );
