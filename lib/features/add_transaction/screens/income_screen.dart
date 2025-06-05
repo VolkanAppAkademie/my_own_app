@@ -71,8 +71,12 @@ class _IncomeScreenState extends State<IncomeScreen> {
         itemBuilder: (ctx, index) {
           final tx = incomeTransactions[index];
           return ListTile(
-            title: Text(tx.description),
-            subtitle: Text('€${tx.amount.toStringAsFixed(2)}'),
+            title: Text('${tx.description} (${tx.category})'),
+
+            //Text(tx.description),
+            subtitle: Text('€${tx.amount.toStringAsFixed(2)}',
+                style: TextStyle(color: Colors.green)),
+
             leading: Icon(
               Icons.arrow_upward,
               color: Colors.green,

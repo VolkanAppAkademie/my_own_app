@@ -70,8 +70,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         itemBuilder: (ctx, index) {
           final tx = incomeTransactions[index];
           return ListTile(
-            title: Text(tx.description),
-            subtitle: Text('€${tx.amount.toStringAsFixed(2)}'),
+            title: Text('${tx.category} (${tx.description})'),
+            subtitle: Text('€${tx.amount.toStringAsFixed(2)}',
+                style: TextStyle(color: Colors.red)),
             leading: Icon(
               Icons.arrow_downward,
               color: Colors.red,

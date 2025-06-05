@@ -36,7 +36,8 @@ class TransactionProvider with ChangeNotifier {
 
   List<Transaction> get transaction => transactions;
 
-  void addTransaction(double amount, String description) async {
+  void addTransaction(
+      double amount, String description, String category) async {
     final id = Uuid().v4();
     String type;
 
@@ -47,11 +48,20 @@ class TransactionProvider with ChangeNotifier {
     }
 
     Transaction newTransaction = Transaction(
-        amount: amount, description: description, type: type, id: id);
+        amount: amount,
+        description: description,
+        type: type,
+        id: id,
+        category: category);
     transactions.add(newTransaction);
 
     await firestoreTransactionRepo.addTransaction(newTransaction);
 
+    notifyListeners();
+  }
+
+  void deleteTransaction(int index) {
+    transaction.removeAt(index);
     notifyListeners();
   }
 
