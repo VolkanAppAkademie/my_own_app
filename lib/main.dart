@@ -35,14 +35,14 @@ void main() async {
     providers: [
       Provider<FirebaseAuthRepository>(create: (_) => authRepository),
       ChangeNotifierProvider(create: (_) {
-        final TransactionProvider habitProvider = TransactionProvider(
+        final TransactionProvider transactionProvider = TransactionProvider(
             firestoreTransactionRepo: firestoreTransactionRepo);
         //    Der Aufruf hier ist "fire-and-forget" (wir warten nicht mit `await` darauf),
         //    weil `create` synchron sein muss. Der Provider selbst kümmert sich
         //    intern darum, seinen Ladezustand (`loading`) zu verwalten und die
         //    UI via `notifyListeners()` zu informieren.
-        habitProvider.initialize();
-        return habitProvider;
+        transactionProvider.initialize();
+        return transactionProvider;
       }),
     ],
     child: MyApp(),
